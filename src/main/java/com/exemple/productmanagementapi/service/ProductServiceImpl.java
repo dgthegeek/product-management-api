@@ -1,9 +1,13 @@
 package com.exemple.productmanagementapi.service;
 
+import com.exemple.productmanagementapi.exception.ApiException;
 import com.exemple.productmanagementapi.model.Product;
 import com.exemple.productmanagementapi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(String id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ApiException("Product not found", HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -40,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(String id) {
+        if (!productRepository.existsById(id)) {
+            throw new ApiException("Product not found", HttpStatus.NOT_FOUND);
+        }
         productRepository.deleteById(id);
     }
 
@@ -50,6 +57,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByUserId(String userId) {
-        return productRepository.findByUserId(userId);
+        List<Product> products = productRepository.findByUserId(userId);
+        if (products.isEmpty()) {
+            throw new ApiException("No products found for this user", HttpStatus.NOT_FOUND);
+        }
+        return products;
     }
 }

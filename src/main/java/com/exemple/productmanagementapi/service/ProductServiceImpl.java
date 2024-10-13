@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
-@Service
+ @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;

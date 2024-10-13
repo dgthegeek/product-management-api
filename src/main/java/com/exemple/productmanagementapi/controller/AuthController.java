@@ -6,6 +6,7 @@ import com.exemple.productmanagementapi.model.AuthenticationResponse;
 import com.exemple.productmanagementapi.model.User;
 import com.exemple.productmanagementapi.service.CustomUserDetailsService;
 import com.exemple.productmanagementapi.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
@@ -50,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
         User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }

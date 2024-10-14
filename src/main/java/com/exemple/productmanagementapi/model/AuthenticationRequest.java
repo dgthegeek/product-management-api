@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class AuthenticationRequest {
     @NotBlank
-    private String username;
+    private String email;
 
     @NotBlank
     private String password;
@@ -14,17 +14,17 @@ public class AuthenticationRequest {
 
     // Constructeur avec tous les champs
     public AuthenticationRequest(String username, String password) {
-        this.username = username;
+        this.email = username;
         this.password = password;
     }
 
     // Getters et setters
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.email = username;
     }
 
     public String getPassword() {
